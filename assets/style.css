@@ -1,0 +1,464 @@
+/* ── Google Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ── CSS Variables ── */
+:root {
+    --bg-primary: #0a0a1a;
+    --bg-secondary: #111128;
+    --bg-card: rgba(20, 20, 50, 0.7);
+    --bg-card-hover: rgba(30, 30, 70, 0.85);
+    --border-color: rgba(100, 120, 255, 0.15);
+    --border-glow: rgba(0, 200, 255, 0.3);
+    --text-primary: #e8e8f0;
+    --text-secondary: #9999bb;
+    --text-muted: #666688;
+    --accent-cyan: #00d4ff;
+    --accent-purple: #8855ff;
+    --accent-green: #00e88f;
+    --accent-orange: #ff8833;
+    --accent-pink: #ff44aa;
+    --gradient-main: linear-gradient(135deg, #00d4ff 0%, #8855ff 100%);
+    --gradient-warm: linear-gradient(135deg, #ff8833 0%, #ff44aa 100%);
+    --gradient-cool: linear-gradient(135deg, #00e88f 0%, #00d4ff 100%);
+    --shadow-glow: 0 0 30px rgba(0, 212, 255, 0.1);
+    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --radius: 16px;
+    --radius-sm: 10px;
+}
+
+/* ── Reset & Base ── */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background:
+        radial-gradient(ellipse at 20% 20%, rgba(0, 212, 255, 0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(136, 85, 255, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+#react-entry-point {
+    position: relative;
+    z-index: 1;
+}
+
+/* ── Header ── */
+.app-header {
+    background: linear-gradient(180deg, rgba(15, 15, 40, 0.95) 0%, transparent 100%);
+    border-bottom: 1px solid var(--border-color);
+    padding: 24px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(20px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-title {
+    font-size: 22px !important;
+    font-weight: 800 !important;
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+}
+
+.header-subtitle {
+    font-size: 13px !important;
+    color: var(--text-secondary) !important;
+    font-weight: 400 !important;
+    margin-top: 2px;
+}
+
+.header-badge {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 8px 18px;
+    font-size: 12px;
+    color: var(--accent-cyan);
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+/* ── Main Content ── */
+.main-content {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 32px 40px 60px;
+}
+
+/* ── Section Headers ── */
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+    margin-top: 48px;
+}
+
+.section-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.section-icon.schematic { background: linear-gradient(135deg, rgba(0,212,255,0.2), rgba(136,85,255,0.2)); }
+.section-icon.params { background: linear-gradient(135deg, rgba(0,232,143,0.2), rgba(0,212,255,0.2)); }
+.section-icon.charts { background: linear-gradient(135deg, rgba(255,136,51,0.2), rgba(255,68,170,0.2)); }
+.section-icon.report { background: linear-gradient(135deg, rgba(136,85,255,0.2), rgba(255,68,170,0.2)); }
+
+.section-title {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    color: var(--text-primary) !important;
+}
+
+.section-desc {
+    font-size: 13px !important;
+    color: var(--text-secondary) !important;
+    font-weight: 400 !important;
+}
+
+/* ── Cards ── */
+.glass-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 28px;
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-card);
+    transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+    border-color: var(--border-glow);
+    box-shadow: var(--shadow-glow), var(--shadow-card);
+}
+
+/* ── Schematic Iframe ── */
+.schematic-frame {
+    width: 100%;
+    height: 520px;
+    border: none;
+    border-radius: var(--radius);
+    background: #0d0d20;
+}
+
+/* ── Parameter Grid ── */
+.param-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+}
+
+@media (max-width: 1100px) {
+    .param-grid { grid-template-columns: 1fr; }
+}
+
+.param-card-title {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    margin-bottom: 20px !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tank-a-title { color: var(--accent-cyan) !important; }
+.tank-b-title { color: var(--accent-green) !important; }
+.turbine-title { color: var(--accent-orange) !important; }
+
+/* ── Sliders ── */
+.param-group {
+    margin-bottom: 18px;
+}
+
+.param-label {
+    font-size: 12px !important;
+    color: var(--text-secondary) !important;
+    font-weight: 500 !important;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.param-value-display {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    color: var(--text-primary) !important;
+    margin-bottom: 4px;
+}
+
+/* Dash slider styling */
+.rc-slider {
+    margin: 8px 0 !important;
+}
+
+.rc-slider-track {
+    background: var(--gradient-main) !important;
+    height: 6px !important;
+}
+
+.rc-slider-rail {
+    background: rgba(255,255,255,0.08) !important;
+    height: 6px !important;
+}
+
+.rc-slider-handle {
+    border-color: var(--accent-cyan) !important;
+    background: var(--bg-primary) !important;
+    width: 18px !important;
+    height: 18px !important;
+    margin-top: -6px !important;
+    box-shadow: 0 0 10px rgba(0,212,255,0.3) !important;
+    opacity: 1 !important;
+}
+
+.rc-slider-handle:hover,
+.rc-slider-handle:active {
+    box-shadow: 0 0 20px rgba(0,212,255,0.5) !important;
+}
+
+/* ── Analyze Button ── */
+.analyze-btn-wrap {
+    text-align: center;
+    margin: 36px 0;
+}
+
+.analyze-btn {
+    background: var(--gradient-main) !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 14px !important;
+    padding: 16px 56px !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    font-family: 'Inter', sans-serif !important;
+    letter-spacing: 0.5px;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 24px rgba(0,212,255,0.25) !important;
+    text-transform: uppercase;
+}
+
+.analyze-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 36px rgba(0,212,255,0.4) !important;
+}
+
+.analyze-btn:active {
+    transform: translateY(0) !important;
+}
+
+/* ── Charts Grid ── */
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+@media (max-width: 900px) {
+    .charts-grid { grid-template-columns: 1fr; }
+}
+
+.chart-title {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: var(--text-secondary) !important;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ── Matplotlib Chart Images ── */
+.mpl-chart-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mpl-chart {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    display: block;
+}
+
+/* ── Report Section ── */
+.report-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+@media (max-width: 1000px) {
+    .report-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.metric-card {
+    background: rgba(15, 15, 40, 0.6);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.metric-card:hover {
+    border-color: var(--border-glow);
+    transform: translateY(-2px);
+}
+
+.metric-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 28px !important;
+    font-weight: 700 !important;
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 6px;
+}
+
+.metric-label {
+    font-size: 11px !important;
+    color: var(--text-secondary) !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600 !important;
+}
+
+.metric-unit {
+    font-size: 12px !important;
+    color: var(--text-muted) !important;
+    margin-top: 2px;
+}
+
+/* ── Report Tables ── */
+.report-tables {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+@media (max-width: 900px) {
+    .report-tables { grid-template-columns: 1fr; }
+}
+
+.report-table-title {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: var(--accent-cyan) !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+}
+
+/* Dash DataTable styling */
+.dash-table-container {
+    border-radius: var(--radius-sm) !important;
+    overflow: hidden;
+}
+
+.dash-spreadsheet-container {
+    border-radius: var(--radius-sm) !important;
+}
+
+.dash-header {
+    background: rgba(0, 212, 255, 0.1) !important;
+}
+
+.dash-cell {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 13px !important;
+}
+
+/* ── Animations ── */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(0,212,255,0.1); }
+    50% { box-shadow: 0 0 40px rgba(0,212,255,0.25); }
+}
+
+.fade-in {
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.pulse-glow {
+    animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* ── Footer ── */
+.app-footer {
+    text-align: center;
+    padding: 32px 40px;
+    border-top: 1px solid var(--border-color);
+    margin-top: 60px;
+}
+
+.footer-text {
+    font-size: 12px !important;
+    color: var(--text-muted) !important;
+}
+
+.footer-brand {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-top: 4px;
+}
+
+/* ── Tooltip ── */
+.custom-tooltip {
+    position: relative;
+}
+
+/* ── Loading ── */
+._dash-loading {
+    background: transparent !important;
+}
+
+.dash-spinner {
+    border-color: var(--accent-cyan) transparent transparent transparent !important;
+}
+
+/* Hide Dash default padding */
+._dash-undo-redo {
+    display: none !important;
+}
