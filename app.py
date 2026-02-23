@@ -32,7 +32,7 @@ import matplotlib
 matplotlib.use("Agg")  # non-interactive backend — must be set before importing pyplot
 import matplotlib.pyplot as plt
 from matplotlib.ticker import AutoMinorLocator
-
+import os
 # ═══════════════════════════════════════════════════════════════════════════════
 # THERMODYNAMIC CONSTANTS
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -929,6 +929,30 @@ def run_analysis(n, ta_feed, ta_moist, ta_treact,
     htc_power_kW = round(htc_metrics["w_net"] * ta_feed / 3600, 2)
     total_power = round(gt_power_kW + htc_power_kW, 2)
 
+    # -----------------------------
+    # OVERALL PLANT EFFICIENCY
+    # -----------------------------
+
+    # Total chemical energy input (MJ/h)
+    fuel_energy_input = (
+        ad_results['biogas_energy_MJ_h'] +
+        htc_results['hydrochar_energy_MJ_h']
+    )
+
+    # Total biomass feed (kg/h)
+    m_total = ta_feed + tb_feed   # use your actual variable names
+
+    # Convert GT & Steam net work from kJ/kg → MJ/h
+    gt_power_MJ_h = (gt_metrics['w_net'] * m_total) / 1000
+    steam_power_MJ_h = (htc_metrics['w_net'] * m_total) / 1000
+
+    total_net_power = gt_power_MJ_h + steam_power_MJ_h
+
+    overall_efficiency = (
+        total_net_power / fuel_energy_input * 100
+        if fuel_energy_input > 0 else 0
+    )
+
     # ── Build charts ──
     fig_hs = make_hs_chart(htc_states)
     fig_th = make_t_hdot_chart(gt_states, m_air)
@@ -958,7 +982,13 @@ def run_analysis(n, ta_feed, ta_moist, ta_treact,
         htc_states, "htc-table",
     )
 
-    # Energy balance table
+    # Energy balance 
+    total_energy_input = (
+    ad_results['biogas_energy_MJ_h']
+    + htc_results['hydrochar_energy_MJ_h']
+)
+
+
     energy_data = [
         {"Component": "Compressor Work", "Value": f"{gt_metrics['w_comp']} kJ/kg"},
         {"Component": "Turbine Work", "Value": f"{gt_metrics['w_turb']} kJ/kg"},
@@ -971,6 +1001,7 @@ def run_analysis(n, ta_feed, ta_moist, ta_treact,
         {"Component": "Biogas Energy Output", "Value": f"{ad_results['biogas_energy_MJ_h']} MJ/h"},
         {"Component": "Hydrochar Energy", "Value": f"{htc_results['hydrochar_energy_MJ_h']} MJ/h"},
         {"Component": "HTC Energy Required", "Value": f"{htc_results['energy_required_MJ_h']} MJ/h"},
+        {"Component": "Overall Efficiency", "Value":f"{overall_efficiency:.2f}%"}
     ]
     energy_table = html.Div([
         html.Div("Energy Balance", className="report-table-title"),
@@ -1109,4 +1140,4 @@ if __name__ == "__main__":
     print("  AD-HTC Fuel-Enhanced Gas Cycle Analyzer")
     print("  Open your browser at  http://127.0.0.1:8050")
     print("=" * 60 + "\n")
-    app.run(debug=True, port=8050)
+    app.run(debug=True, port=int(os.environ("PORT", 8050)))
